@@ -1,3 +1,12 @@
+# Модели данных для блога:
+
+# PublishedCreated: добавляет поля для отметки о публикации и времени создания
+# Category: категория публикации
+# Location: хранение местоположения публикации
+# Post: публикация с возможностью добавления изображения,
+#                                                   категории и местоположения
+# Comment: комментарий для публикации
+
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -5,6 +14,13 @@ User = get_user_model()
 
 
 class PublishedCreated(models.Model):
+    """
+    Модель для добавления полей отметки о публикации и времени создания
+    Атрибуты:
+            is_published (флаг публикации, позволяет скрывать объекты)
+            created_at (автоматически заполняется при создании объекта датой)
+    """
+
     is_published = models.BooleanField(
         default=True, verbose_name='Опубликовано',
         help_text='Снимите галочку, чтобы скрыть публикацию.'
@@ -18,6 +34,14 @@ class PublishedCreated(models.Model):
 
 
 class Category(PublishedCreated):
+    """
+    Модель категории для публикаций
+    Атрибуты:
+            title (название категории)
+            description (описание категории)
+            slug (идентификатор для формирования URL)
+    """
+
     title = models.CharField(max_length=256, verbose_name='Заголовок')
     description = models.TextField(verbose_name='Описание')
     slug = models.SlugField(
@@ -38,6 +62,12 @@ class Category(PublishedCreated):
 
 
 class Location(PublishedCreated):
+    """
+    Модель местоположения для публикаций
+    Атрибуты:
+            name (название местоположения. По умолчанию "Планета Земля")
+    """
+
     name = models.CharField(
         max_length=256, verbose_name='Название места', default='Планета Земля'
     )
@@ -51,6 +81,19 @@ class Location(PublishedCreated):
 
 
 class Post(PublishedCreated):
+    """
+    Модель публикации
+    Атрибуты:
+            title (заголовок публикации)
+            text (основной текст публикации)
+            pub_date (дата и время публикации, поддерживает отложенные
+                                                                    публикации)
+            author (связь с пользователем, создавшим публикацию)
+            location (связь с моделью Location)
+            category (связь с моделью Category)
+            image (поле для загрузки изображения)
+    """
+
     title = models.CharField(max_length=256, verbose_name='Название')
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(
@@ -92,6 +135,15 @@ class Post(PublishedCreated):
 
 
 class Comment(models.Model):
+    """
+    Модель комментария для публикаций
+    Атрибуты:
+            text (текст комментария)
+            created_at (дата и время добавления комментария)
+            author (связь с пользователем, создавшим комментарий)
+            post (связь с публикацией, к которой относится комментарий)
+    """
+
     text = models.TextField('Текст')
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name='Добавлено'

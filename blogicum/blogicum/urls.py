@@ -1,3 +1,7 @@
+# Подключаем django.contrib.auth.urls для работы с авторизацией
+# Создаем путь регистрации
+# Настраиваем обработчики для отображения страниц ошибок
+
 from django.contrib import admin
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
@@ -19,5 +23,7 @@ urlpatterns = [
     ),
 ]
 
+
+# Обработчики ошибок
 handler404 = 'pages.views.page_not_found'
 handler500 = 'pages.views.server_error'

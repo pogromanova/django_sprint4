@@ -1,3 +1,5 @@
+# Пути, прописанные с помощью view-классов
+
 from django.urls import path
 
 from . import views
