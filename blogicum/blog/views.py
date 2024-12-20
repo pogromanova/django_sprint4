@@ -36,7 +36,7 @@ def filtered_post(posts, is_count_comments=True):
     )
     return posts_query.annotate(
         comment_count=Count('comments')
-    ) if is_count_comments else posts_query
+    ).order_by("-pub_date") if is_count_comments else posts_query
 
 
 class PostListView(ListView):
