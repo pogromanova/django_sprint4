@@ -134,10 +134,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static_dev",
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = BASE_DIR / 'media'
+# my settings
+CSRF_FAILURE_VIEW = "pages.views.csrf_failure"
+
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "media/"
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "blog:index"
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
