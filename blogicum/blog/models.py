@@ -126,7 +126,6 @@ class Post(PublishedCreated):
         ordering = ('-pub_date',)
 
     def __str__(self):
-        # return str(self.id)
         return (
             f'{(self.author.get_username())[:30]} - {self.title[:30]} '
             f'{self.text[:50]} - {self.pub_date} '
